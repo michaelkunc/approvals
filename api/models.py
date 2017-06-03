@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.postgres.fields import JSONField
 
 
-class Applications(models.Model):
+class OrderApplications(models.Model):
     application_id = models.IntegerField(primary_key=True)
     status = models.CharField(max_length=30)
     person_id = models.IntegerField()
