@@ -1,3 +1,16 @@
 from django.db import models
+from django.contrib.postgres.fields import JSONField
 
-# Create your models here.
+
+class Applications(models.Model):
+    application_id = models.IntegerField(primary_key=True)
+    status = models.CharField(max_length=30)
+    person_id = models.IntegerField()
+    max_affordability_cents = models.IntegerField()
+    max_affordability_currency = models.CharField(max_length=10)
+    expiration_date = models.DateTimeField(auto_now=False, auto_now_add=False)
+    created_at = models.DateTimeField(auto_now=False, auto_now_add=False)
+    updated_at = models.DateTimeField(auto_now=False, auto_now_add=False)
+    vehicle_reference_id = models.CharField(200)
+    locked_application = JSONField()
+    threatmetrix_session_id = models.CharField(200)
