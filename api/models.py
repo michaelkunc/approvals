@@ -8,7 +8,8 @@ class OrderApplications(models.Model):
     person_id = models.IntegerField()
     max_affordability_cents = models.IntegerField()
     max_affordability_currency = models.CharField(max_length=10)
-    expiration_date = models.DateTimeField(auto_now=False, auto_now_add=False)
+    expiration_date = models.DateTimeField(
+        null=True, auto_now=False, auto_now_add=False)
     created_at = models.DateTimeField(auto_now=False, auto_now_add=False)
     updated_at = models.DateTimeField(auto_now=False, auto_now_add=False)
     vehicle_reference_id = models.CharField(max_length=200)
