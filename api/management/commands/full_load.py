@@ -7,7 +7,7 @@ from api.models import OrderApplications, Audit
 
 
 class Command(BaseCommand):
-    help = """Performs a full load of data into the db from csv (soon to be s3 bucket).
+    help = """Performs a full load of data into the db from the S3 bucket.
     			This command will kill and fill the db."""
 
     def handle(self, *args, **options):
@@ -25,7 +25,6 @@ class Command(BaseCommand):
                     person_id=r[2],
                     max_affordability_cents=r[3],
                     max_affordability_currency=r[4],
-                    # expiration_date=r[5],
                     created_at=r[6],
                     updated_at=r[7],
                     vehicle_reference_id=r[8],
