@@ -19,7 +19,6 @@ class Command(BaseCommand):
             reader = csv.reader(f)
             next(f)
             for r in reader:
-                # print(r[7])
                 order_app = OrderApplications(application_id=r[0],
                                               status=r[1],
                                               person_id=r[2],
@@ -40,4 +39,5 @@ class Command(BaseCommand):
             self.stdout.write(
                 "{0} rows have been loaded to the database".format(row_count))
 
-            # r5 and r8 are empty
+# something is going on with expiration_date. Everything else seems to be
+# loading correctly.
