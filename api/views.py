@@ -33,9 +33,13 @@ class OrderApplicationsListApprovedYear(generics.ListAPIView):
     def get_queryset(self):
         queryset = OrderApplications.objects.all()
         year = self.request.query_params.get('year', None)
+        month = self.request.query_params.get('month', None)
         if year is None:
             return queryset
-        else:
+        elif month is None:
             return queryset.filter(updated_at__year=year)
+        else:
+            by_year = queryset.filter(updated_at__year=year)
+            return by_year.filter(updated_at__month=month)
 
-# http://127.0.0.1:8000/orderapplications/year/?year=2017
+# http://127.0.0.1:8000/orderapplications/year/?year=2016&month=10
