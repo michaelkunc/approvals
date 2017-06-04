@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from rest_framework import generics
 from rest_framework import viewsets
+from rest_framework.views import APIView
+from rest_framework.renderers import JSONRenderer
 
 from rest_framework.response import Response
 from api.models import OrderApplications
@@ -14,14 +16,19 @@ class OrderApplicationsList(generics.ListAPIView):
         return OrderApplications.objects.all()
 
 
-class OrderApplicationsListApproved(generics.ListAPIView):
+class OrderApplicationsListApproved(APIView):
+    renderer_classes = (JSONRenderer,)
+
     serializer_class = OrderApplicationsSerializer
 
-    def get_queryset(self):
+    def get(self, request, format=None):
         queryset = OrderApplications.objects.all()
         status = self.request.query_params.get('approved', None)
         year = self.request.query_params.get('year', None)
         month = self.request.query_params.get('month', None)
+
+        field_name = 'approved applications'
+
         if status == 'Y' and year is not None and month is not None:
             queryset = queryset.filter(status='approved')
             queryset = queryset.filter(updated_at__year=year)
@@ -35,37 +42,11 @@ class OrderApplicationsListApproved(generics.ListAPIView):
             queryset = queryset.filter(updated_at__year=year)
         else:
             queryset = queryset.exclude(status='approved')
+            field_name = 'denied applications'
 
-        return queryset
-
-# http://127.0.0.1:8000/orderapplications/approved/?approved=Y&year=2017&month=1
-
-
-# class OrderApplicationsListYear(generics.ListAPIView):
-#     serializer_class = OrderApplicationsSerializer
-
-#     def get_queryset(self):
-#         queryset = OrderApplications.objects.all()
-#         year = self.request.query_params.get('year', None)
-#         month = self.request.query_params.get('month', None)
-#         if year is None:
-#             return queryset
-#         elif month is None:
-#             return queryset.filter(updated_at__year=year)
-#         else:
-# return
-# queryset.filter(updated_at__year=year).filter(updated_at__month=month)
+        application_count = queryset.count()
+        content = {field_name: application_count}
+        return Response(content)
 
 
-# http://127.0.0.1:8000/orderapplications/year/month/?year=2016&month=10
-
-# start of aggregation
-
-
-# class OrderApplicationsListCount(viewsets.ModelViewSet):
-#     serializer_class = OrderApplicationsSerializer
-#     queryset = OrderApplications.objects.all()
-
-#     def get_queryset(self):
-#         return OrderApplications.objects.annotate(
-#             total_applications=Count('applications'))
+# http://127.0.0.1:8000/orderapplications/approved/?approved=Y&year=2016&month=10
