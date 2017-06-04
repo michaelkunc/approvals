@@ -30,28 +30,26 @@ class TestViews(TestCase):
         self.assertEqual('2016-09-29T07:31:50.267984Z',
                          response.json()[0]['updated_at'])
 
-    def test_application_status_y(self):
-        response = self.client.get('/orderapplications/approved/?approved=Y')
+    def test_application_status_y_year_month(self):
+        response = self.client.get(
+            '/orderapplications/approved/?approved=Y&year=2016&month=9')
         self.assertEqual(1, len(response.json()))
 
-    def test_application_status_not_y(self):
-        response = self.client.get('/orderapplications/approved/?approved=N')
+    def test_application_status_y_year(self):
+        response = self.client.get(
+            '/orderapplications/approved/?approved=Y&year=2016')
+        self.assertEqual(1, len(response.json()))
+
+    def test_application_status_y_year_month_negative(self):
+        response = self.client.get(
+            '/orderapplications/approved/?approved=Y&year=2016&month=8')
         self.assertEqual(0, len(response.json()))
 
-    def test_year_in_result(self):
-        response = self.client.get('/orderapplications/year/?year=2016')
-        self.assertEqual(1, len(response.json()))
-
-    def test_year_not_in_result(self):
-        response = self.client.get('/orderapplications/year/?year=2000')
+    def test_application_status_y_year_negative(self):
+        response = self.client.get(
+            '/orderapplications/approved/?approved=Y&year=2015')
         self.assertEqual(0, len(response.json()))
 
-    def test_month_in_result(self):
-        response = self.client.get(
-            '/orderapplications/year/?year=2016&month=9')
-        self.assertEqual(1, len(response.json()))
-
-    def test_month_not_in_result(self):
-        response = self.client.get(
-            '/orderapplications/year/?year=2016&month=10')
+    def test_application_status_no_year_month(self):
+        response = self.client.get('/orderapplications/approved/')
         self.assertEqual(0, len(response.json()))
