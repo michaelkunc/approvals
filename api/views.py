@@ -10,5 +10,16 @@ class OrderApplicationsList(generics.ListAPIView):
     serializer_class = OrderApplicationsSerializer
 
     def get_queryset(self):
+        return OrderApplications.objects.all()
+
+
+class OrderApplicationsListApproved(generics.ListAPIView):
+    serializer_class = OrderApplicationsSerializer
+
+    def get_queryset(self):
         queryset = OrderApplications.objects.all()
-        return queryset
+        status = self.request.query_params.get('status', None)
+        if status == 'approved':
+            return queryset.filter(status='approved')
+        else:
+            return queryset
