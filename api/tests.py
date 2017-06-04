@@ -29,3 +29,21 @@ class TestViews(TestCase):
         self.assertEqual('approved', response.json()[0]['status'])
         self.assertEqual('2016-09-29T07:31:50.267984Z',
                          response.json()[0]['updated_at'])
+
+    def test_year_in_result(self):
+        response = self.client.get('/orderapplications/year/?year=2016')
+        self.assertEqual(1, len(response.json()))
+
+    def test_year_not_in_result(self):
+        response = self.client.get('/orderapplications/year/?year=2000')
+        self.assertEqual(0, len(response.json()))
+
+    def test_month_in_result(self):
+        response = self.client.get(
+            '/orderapplications/year/?year=2016&month=9')
+        self.assertEqual(1, len(response.json()))
+
+    def test_month_not_in_result(self):
+        response = self.client.get(
+            '/orderapplications/year/?year=2016&month=10')
+        self.assertEqual(0, len(response.json()))
