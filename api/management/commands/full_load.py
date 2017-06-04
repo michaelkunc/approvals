@@ -2,7 +2,7 @@ from django.core.management.base import BaseCommand
 from django.core import management
 import csv
 
-from api.models import OrderApplications
+from api.models import OrderApplications, Audit
 
 
 class Command(BaseCommand):
@@ -11,11 +11,9 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
 
-        # clears the tables
-        # management.call_command('flush', verbosity=0, interactive=False)
+        self._clear_data()
         row_count = 0
-        # try:
-        with open('../fair_code_challenge/csvs/order_applications.csv', 'r') as f:
+        with open('../../Desktop/fair_code_challenge/csvs/order_applications.csv', 'r') as f:
             reader = csv.reader(f)
             next(f)
             for r in reader:
@@ -38,6 +36,15 @@ class Command(BaseCommand):
                 row_count += 1
             self.stdout.write(
                 "{0} rows have been loaded to the database".format(row_count))
+
+            self._update_audit_table(row_count, 'Full Load')
+
+    def _clear_data(self):
+        OrderApplications.objects.all().delete()
+
+    def _update_audit_table(self, row_count, run_type):
+        Audit(row_count=row_count, run_type=run_type).save()
+        self.stdout.write('The audit table has been updated.')
 
 # something is going on with expiration_date. Everything else seems to be
 # loading correctly.

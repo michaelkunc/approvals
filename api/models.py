@@ -16,3 +16,9 @@ class OrderApplications(models.Model):
     locked_application = JSONField()
     threatmetrix_session_id = models.CharField(max_length=200)
     partial_application = JSONField()
+
+
+class Audit(models.Model):
+    run_date = models.DateTimeField(auto_now_add=True)
+    row_count = models.IntegerField()
+    run_type = models.CharField(max_length=30)
