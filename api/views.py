@@ -18,8 +18,8 @@ class OrderApplicationsListApproved(generics.ListAPIView):
 
     def get_queryset(self):
         queryset = OrderApplications.objects.all()
-        status = self.request.query_params.get('status', None)
-        if status == 'approved':
+        status = self.request.query_params.get('approved', None)
+        if status == 'Y':
             return queryset.filter(status='approved')
         else:
             return queryset
