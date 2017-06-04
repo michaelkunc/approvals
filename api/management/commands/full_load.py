@@ -19,21 +19,19 @@ class Command(BaseCommand):
             reader = csv.reader(f)
             next(f)
             for r in reader:
-                order_app = OrderApplications(application_id=r[0],
-                                              status=r[1],
-                                              person_id=r[2],
-                                              max_affordability_cents=r[
-                                                  3],
-                                              max_affordability_currency=r[
-                                                  4],
-                                              # expiration_date=r[5],
-                                              created_at=r[6],
-                                              updated_at=r[7],
-                                              vehicle_reference_id=r[8],
-                                              locked_application=r[9],
-                                              threatmetrix_session_id=r[
-                                                  10],
-                                              partial_application=r[11])
+                order_app = OrderApplications(
+                    application_id=r[0],
+                    status=r[1],
+                    person_id=r[2],
+                    max_affordability_cents=r[3],
+                    max_affordability_currency=r[4],
+                    # expiration_date=r[5],
+                    created_at=r[6],
+                    updated_at=r[7],
+                    vehicle_reference_id=r[8],
+                    locked_application=r[9],
+                    threatmetrix_session_id=r[10],
+                    partial_application=r[11])
                 order_app.save()
                 row_count += 1
             self.stdout.write(

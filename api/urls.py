@@ -7,7 +7,7 @@ from api import views
 
 urlpatterns = [
     url(r'^orderapplications/$', views.OrderApplicationsList.as_view()),
-    url(r'^orderapplications/approved/?$',
+    url(r'^orderapplications/status/?$',
         views.OrderApplicationsListApproved.as_view()),
 
 

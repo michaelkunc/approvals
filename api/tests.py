@@ -32,24 +32,24 @@ class TestViews(TestCase):
 
     def test_application_status_y_year_month(self):
         response = self.client.get(
-            '/orderapplications/approved/?approved=Y&year=2016&month=9')
-        self.assertEqual(1, response.json()['approved applications'])
+            '/orderapplications/status/?approved=Y&year=2016&month=9')
+        self.assertEqual(1, response.json()['approved_applications'])
 
     def test_application_status_y_year(self):
         response = self.client.get(
-            '/orderapplications/approved/?approved=Y&year=2016')
-        self.assertEqual(1, response.json()['approved applications'])
+            '/orderapplications/status/?approved=Y&year=2016')
+        self.assertEqual(1, response.json()['approved_applications'])
 
-    # def test_application_status_y_year_month_negative(self):
-    #     response = self.client.get(
-    #         '/orderapplications/approved/?approved=Y&year=2016&month=8')
-    #     self.assertEqual(0, len(response.json()))
+    def test_application_status_y_year_month_negative(self):
+        response = self.client.get(
+            '/orderapplications/status/?approved=Y&year=2016&month=8')
+        self.assertEqual(0, response.json()['approved_applications'])
 
-    # def test_application_status_y_year_negative(self):
-    #     response = self.client.get(
-    #         '/orderapplications/approved/?approved=Y&year=2015')
-    #     self.assertEqual(0, len(response.json()))
+    def test_application_status_y_year_negative(self):
+        response = self.client.get(
+            '/orderapplications/status/?approved=Y&year=2015')
+        self.assertEqual(0, response.json()['approved_applications'])
 
-    # def test_application_status_no_year_month(self):
-    #     response = self.client.get('/orderapplications/approved/')
-    #     self.assertEqual(0, len(response.json()))
+    def test_application_status_no_year_month(self):
+        response = self.client.get('/orderapplications/status/')
+        self.assertEqual(0, response.json()['denied_applications'])
