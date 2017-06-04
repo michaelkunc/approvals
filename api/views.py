@@ -17,33 +17,47 @@ class OrderApplicationsList(generics.ListAPIView):
 class OrderApplicationsListApproved(generics.ListAPIView):
     serializer_class = OrderApplicationsSerializer
 
+    # def get_queryset(self):
+    #     queryset = OrderApplications.objects.all()
+    #     status = self.request.query_params.get('approved', None)
+    #     if status == 'Y':
+    #         return queryset.filter(status='approved')
+    #     else:
+    #         return queryset.exclude(status='approved')
+# http://127.0.0.1:8000/orderapplications/approved/?approved=Y
+
     def get_queryset(self):
         queryset = OrderApplications.objects.all()
         status = self.request.query_params.get('approved', None)
-        if status == 'Y':
-            return queryset.filter(status='approved')
+        year = self.request.query_params.get('year', None)
+        if status == 'Y' and year is not None:
+            queryset = queryset.filter(status='approved')
+            queryset = queryset.filter(updated_at__year=year)
+        elif year is not None:
+            queryset = queryset.exclude(status='approved')
+            queryset = queryset.filter(updated_at__year=year)
         else:
-            return queryset.exclude(status='approved')
+            queryset = queryset.exclude(status='approved')
 
-# http://127.0.0.1:8000/orderapplications/approved/?approved=Y
+        return queryset
 
 
-class OrderApplicationsListApprovedYear(generics.ListAPIView):
+class OrderApplicationsListYear(generics.ListAPIView):
     serializer_class = OrderApplicationsSerializer
 
     def get_queryset(self):
         queryset = OrderApplications.objects.all()
         year = self.request.query_params.get('year', None)
         month = self.request.query_params.get('month', None)
-        status = self.request.query_params.get('approved', None)
         if year is None:
-            return queryset.exclude(status='approved')
+            return queryset
         elif month is None:
             return queryset.filter(updated_at__year=year)
         else:
             return queryset.filter(updated_at__year=year).filter(updated_at__month=month)
 
-# http://127.0.0.1:8000/orderapplications/year/?year=2016&month=10
+
+# http://127.0.0.1:8000/orderapplications/year/month/?year=2016&month=10
 
 # start of aggregation
 

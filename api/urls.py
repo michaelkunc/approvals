@@ -9,9 +9,8 @@ urlpatterns = [
     url(r'^orderapplications/$', views.OrderApplicationsList.as_view()),
     url(r'^orderapplications/approved/?$',
         views.OrderApplicationsListApproved.as_view()),
-    url(r'^orderapplications/year/?$',
-        views.OrderApplicationsListApprovedYear.as_view()),
-    # url(r'^aggregate/?$', views.OrderApplicationsListCount.as_view())
+    url(r'^orderapplications/year/month/?$',
+        views.OrderApplicationsListYear.as_view()),
 
 
 ]
