@@ -30,6 +30,14 @@ class TestViews(TestCase):
         self.assertEqual('2016-09-29T07:31:50.267984Z',
                          response.json()[0]['updated_at'])
 
+    def test_application_status_y(self):
+        response = self.client.get('/orderapplications/approved/?approved=Y')
+        self.assertEqual(1, len(response.json()))
+
+    def test_application_status_not_y(self):
+        response = self.client.get('/orderapplications/approved/?approved=N')
+        self.assertEqual(0, len(response.json()))
+
     def test_year_in_result(self):
         response = self.client.get('/orderapplications/year/?year=2016')
         self.assertEqual(1, len(response.json()))
