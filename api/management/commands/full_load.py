@@ -1,6 +1,7 @@
 from django.core.management.base import BaseCommand
 from django.core import management
 import csv
+import boto3
 
 from api.models import OrderApplications, Audit
 
@@ -12,8 +13,9 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
 
         self._clear_data()
+        self._get_data_from_s3()
         row_count = 0
-        with open('../../Desktop/fair_code_challenge/csvs/order_applications.csv', 'r') as f:
+        with open('csvs/order_applications.csv') as f:
             reader = csv.reader(f)
             next(f)
             for r in reader:
@@ -46,5 +48,8 @@ class Command(BaseCommand):
         Audit(row_count=row_count, run_type=run_type).save()
         self.stdout.write('The audit table has been updated.')
 
-# something is going on with expiration_date. Everything else seems to be
-# loading correctly.
+    def _get_data_from_s3(self):
+        s3 = boto3.resource('s3')
+        bucket = s3.Bucket('coding-challenge-1')
+        s3.meta.client.download_file(
+            bucket.name, 'order_applications.csv', 'csvs/order_applications.csv')

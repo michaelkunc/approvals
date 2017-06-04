@@ -11,6 +11,7 @@ urlpatterns = [
         views.OrderApplicationsListApproved.as_view()),
     url(r'^orderapplications/year/?$',
         views.OrderApplicationsListApprovedYear.as_view()),
+    # url(r'^aggregate/?$', views.OrderApplicationsListCount.as_view())
 
 
 ]
