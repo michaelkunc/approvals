@@ -49,7 +49,8 @@ class Command(BaseCommand):
         self.stdout.write('The audit table has been updated.')
 
     def _get_data_from_s3(self):
-        s3 = boto3.resource('s3', aws_access_key=os.environ['AWS_ACCESS_KEY'])
+        s3 = boto3.resource('s3', aws_access_key=os.environ[
+                            'AWSACCESSKEY'], aws_secret_key=os.environ['AWSSECRETKEY'])
         bucket = s3.Bucket('coding-challenge-1')
         s3.meta.client.download_file(
             bucket.name, 'order_applications.csv', 'csvs/order_applications.csv')
