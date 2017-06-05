@@ -83,7 +83,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'approvals_api',
-        'USER': 'approvals_api_user'
+        'USER': 'approvals_api_user',
+        'HOST': 'localhost'
     }
 }
 
