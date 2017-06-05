@@ -29,7 +29,7 @@ SECRET_KEY = 'th_u)4fj*p7zh%bkkb2w8orxf(m@bv&zfgoq_#6^x%i=v^se2)'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['enigmatic-chamber-55708.herokuapp.com', '127.0.0.1']
 
 
 # Application definition
