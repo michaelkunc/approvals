@@ -13,7 +13,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
 
         self._clear_data()
-        self._get_data_from_s3()
+        # self._get_data_from_s3()
         # need to get my aws credentials into the
         # heroku env
         row_count = 0
