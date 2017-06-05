@@ -13,7 +13,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
 
         self._clear_data()
-        self._get_data_from_s3()
+        # self._get_data_from_s3()
         row_count = 0
         with open('csvs/order_applications.csv') as f:
             reader = csv.reader(f)
